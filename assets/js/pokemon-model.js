@@ -12,3 +12,4 @@ class Pokemon {
     move;
     moves = []
 }
+

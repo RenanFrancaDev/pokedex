@@ -1,26 +1,36 @@
 const pokeApi = {}
 
-pokeApi.getPokemonsArr = (offset, limit) => {
-const url = `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`
-return fetch(url)
-    .then((response) => response.json())
-    .then((jsonBody) => jsonBody.results)
-    .then((pokemonsArr) => pokemonsArr.map((pokemon) => pokeApi.getPokemonsDetail(pokemon)))
-    .then((detailRequest) => Promise.all(detailRequest))
-    .then((pokemonsDetails) => pokemonsDetails)
-    .catch((error) => console.error('error'))
 
-    // pokemonsArr.map(pokeApi.getPokemonsDetail)
+pokeApi.getPokemonsArr = buscarPoke()
+
+async function buscarPoke(offset, limit) {
+    try{
+    const response = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`)
+    const pokemons = await response.json()
+    const jsonBody = await jsonBody.results
+    const pokemonsArr = await pokemonsArr.map((pokemon) => pokeApi.getPokemonsDetail(pokemon))
+    const detailRequest = await Promise.all(detailRequest)
+    const pokemonsDetails = await pokemonsDetails
+    return pokemonsDetails
+    } catch (error){
+        console.error(error)
+    }
 }
 
-pokeApi.getPokemonsDetail = (pokemon) => {
-    return fetch(pokemon.url)
-    .then((response) => response.json())
-    .then((pokemon) => convertPokeAoiDetailtoPokemon(pokemon))
+
+pokeApi.getPokemonsDetail = async (pokemon) => {
+    await fetch(pokemon.url)
+    const response = await response.json()
+    const poke = convertPokeAoiDetailtoPokemon(pokemon)
+
+
+    return poke
                             
 }
 
+
 function convertPokeAoiDetailtoPokemon(pokeDetail){
+
 
     const pokemon = new Pokemon();
     pokemon.number = pokeDetail.id;
@@ -34,6 +44,7 @@ function convertPokeAoiDetailtoPokemon(pokeDetail){
     pokemon.ability = pokemon.abilities.length > 1 ? pokemon.abilities[0] + ' & ' + pokemon.abilities[1] : pokemon.abilities[0];
     pokemon.moves = pokeDetail.abilities.map((abilitySlot) => abilitySlot.ability.name);
     pokemon.move = pokemon.moves.length > 1 ? pokemon.moves[0] + ' & ' + pokemon.moves[1] : pokemon.moves[0] ;
+
 
     
     return pokemon

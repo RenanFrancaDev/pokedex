@@ -23,7 +23,7 @@ function convertPokemonToHtml(pokemon){
 
 function loadPokemonItens(offset, limit){
 
-pokeApi.getPokemonsArr(offset, limit).then((pokemonsArr) => {
+buscarPoke(offset, limit).then((pokemonsArr) => {
             const newList = pokemonsArr.map((pokemon) => convertPokemonToHtml(pokemon)).join('')
             pokemonList.innerHTML += newList;
     
@@ -34,7 +34,7 @@ loadPokemonItens(offset, limit)
 
 loadMoreButton.addEventListener('click', () => {
     offset += limit;
-    console.log(offset)
+    // console.log(offset)
 
     const qntNewPage = offset + limit;
 
@@ -45,5 +45,4 @@ loadMoreButton.addEventListener('click', () => {
     }else {
         loadPokemonItens(offset, limit)
     }
-    
 })
