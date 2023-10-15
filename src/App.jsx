@@ -1,37 +1,15 @@
-import './App.css'
-import { PokeService} from '../src/api/PokemonService'
-import { useEffect, useState } from 'react'
+import  Home  from "./views/Home"
+import { useState } from "react";
 
 
 function App() {
-
-
-  const [pokemons, setPokemons] = useState({});
-  // const limit = 10;
-  // let offset = 0;
-
-  const getPokemons = async () =>{
-    const{data:{results}} = await PokeService.getPokemons()
-
-    console.log(results)
-
-    setPokemons(results)
-  }
-
-  useEffect(() => {
-    getPokemons()
-
-}, []);
+  const [searchValue, setSearchValue] = useState("");
 
   return (
-    <>
-      <div className='Home'>
-       {pokemons.map((pokemon) => (
-        <h2>{pokemon.name}</h2>
-       ))}
-      </div>
-    </>
-  )
+    <div className="App">
+    <Home/>
+    </div>
+  );
 }
 
-export default App
+export default App;
