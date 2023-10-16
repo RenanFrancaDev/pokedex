@@ -1,20 +1,28 @@
 import { PokeService} from '../../api/PokemonService'
 import { useEffect, useState } from 'react'
 import Pokemon from '../../components/Pokemon/model';
+import Card from '../../components/Card'
 
 
 const Home = () => {
 
-  const [pokemon, setPokemon] = useState([]);
+  const [pokemons, setPokemons] = useState([]);
+  let offset = 0
+  let limit = 10
+
+  const getPokemons = async (offset, limit) =>{
   
-  const getPokemonDetail = async () =>{
-    const {data} = await PokeService.getPokeInfo()
-    convertPokemon(data)
+  const {data} = await PokeService.getPokemons(offset, limit)
+  const {results} = data
+  results.map((poke) => (getPokemonDetail(poke.url)))
   }
 
-  useEffect(() => {
-    getPokemonDetail()
-}, []);
+
+  const getPokemonDetail = async (url) =>{
+  const {data} = await PokeService.getPokeInfo(url)
+  console.log(data)
+  convertPokemon(data)
+    }
 
 
 function convertPokemon(pokeDetail){
@@ -32,18 +40,25 @@ function convertPokemon(pokeDetail){
   pokemon.ability = pokemon.abilities.length > 1 ? pokemon.abilities[0] + ' & ' + pokemon.abilities[1] : pokemon.abilities[0];
   pokemon.moves = pokeDetail.abilities.map((abilitySlot) => abilitySlot.ability.name);
   pokemon.move = pokemon.moves.length > 1 ? pokemon.moves[0] + ' & ' + pokemon.moves[1] : pokemon.moves[0] ;
-
- setPokemon(pokemon)
+  
+  
+ setPokemons(pokemon)
 }
 
+useEffect(() => {
+  getPokemons(offset, limit)
+},[]);
 
   return (
     <>
       <div className='Home'>
 
         <div>
-          <h3>{pokemon.name}</h3>
-          <img src={pokemon.photo} alt='pokemon foto'/>
+          <h3>POKEMON</h3>
+          {console.log(pokemons)}
+          {pokemons.map((pokemon) => (
+            <Card key={pokemon.number} pokemon={pokemon}/>
+          ))}
           <ul>
           </ul>
         </div>

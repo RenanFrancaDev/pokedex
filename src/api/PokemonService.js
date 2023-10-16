@@ -5,12 +5,12 @@ import axios from "axios"
 // var pokeApi = {}
 
 export class PokeService{
-    static getPokemons(){
-        return axios(`https://pokeapi.co/api/v2/pokemon?offset=0&limit=15`)
+    static getPokemons(offset, limit){
+        return axios(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`)
     }
 
-    static getPokeInfo(){
-        return axios(`https://pokeapi.co/api/v2/pokemon/1`)
+    static getPokeInfo(url){
+        return axios({url})
         
     }
 }
