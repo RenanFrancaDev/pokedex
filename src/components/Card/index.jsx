@@ -13,8 +13,8 @@ const Card = ( { pokemon } ) =>{
         <div>
             <span>#{pokemon.number}</span>
             <ol className="types">
-              {/* {console.log(pokemon.types)} */}
-            {/* {pokemon.types.map((type) => (<li className={`pokemon ${type}`} key={type.index}>{type}</li>))} */}
+
+            {pokemon.types.map((type) => (<li className={`pokemon ${type}`} key={type.index}>{type}</li>))}
             </ol>
         </div>
     </div>

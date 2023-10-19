@@ -7,6 +7,7 @@ import Card from '../../components/Card'
 const Home = () => {
 
   const [pokemons, setPokemons] = useState([]);
+
   let offset = 0
   let limit = 10
 
@@ -20,7 +21,7 @@ const Home = () => {
 
   const getPokemonDetail = async (url) =>{
   const {data} = await PokeService.getPokeInfo(url)
-  console.log(data)
+  // console.log(data)
   convertPokemon(data)
     }
 
@@ -41,13 +42,23 @@ function convertPokemon(pokeDetail){
   pokemon.moves = pokeDetail.abilities.map((abilitySlot) => abilitySlot.ability.name);
   pokemon.move = pokemon.moves.length > 1 ? pokemon.moves[0] + ' & ' + pokemon.moves[1] : pokemon.moves[0] ;
   
-  
- setPokemons(pokemon)
+
+ setPokemons((prev)=>{return [...prev,pokemon]})
 }
 
 useEffect(() => {
   getPokemons(offset, limit)
+  console.log('oi')
 },[]);
+
+
+const handleClick = () => {
+offset = 0
+limit += 10
+getPokemons(offset, limit)
+
+}
+
 
   return (
     <>
@@ -59,8 +70,7 @@ useEffect(() => {
           {pokemons.map((pokemon) => (
             <Card key={pokemon.number} pokemon={pokemon}/>
           ))}
-          <ul>
-          </ul>
+          <button onClick={handleClick}></button>
         </div>
 
       </div>
